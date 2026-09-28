@@ -4,11 +4,11 @@ A standard-chess engine in C++20, developed one verified layer at a time. The in
 
 ## Start here
 
-1. Put `AGENTS.md` and this file at the repository root, and put the other supplied files in `docs/`.
-2. Ask Codex: **“Read AGENTS.md and docs/*.md. Implement only roadmap milestone 1: CMake, CTest, compiler warnings, and a minimal smoke test. Run the configured checks and report results. Do not start primitive types yet.”**
-3. Review the result, then request milestone 2. Continue in order; each milestone has an exit check.
+1. Configure: `cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug`
+2. Build: `cmake --build build`
+3. Test: `ctest --test-dir build --output-on-failure`
 
-The documents describe intended APIs before their implementation. They are specifications, not claims that source files or build commands already exist.
+Use `-DCHESS_ENABLE_SANITIZERS=ON` with GCC or Clang to enable AddressSanitizer and UndefinedBehaviorSanitizer. Milestone 1 provides only the build scaffold and smoke test; chess primitives are deliberately not present yet.
 
 ## Project documents
 
@@ -25,26 +25,18 @@ The documents describe intended APIs before their implementation. They are speci
 .
 ├── AGENTS.md
 ├── README.md
-├── CMakeLists.txt                 # created in milestone 1
+├── CMakeLists.txt
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── DECISIONS.md
 │   └── ROADMAP.md
 ├── src/
-│   ├── main.cpp
-│   └── chess/
-│       ├── types.h
-│       ├── bitboard.h
-│       ├── attacks.h
-│       ├── move.h
-│       ├── zobrist.h
-│       ├── position.h
-│       ├── movegen.h
-│       └── perft.h
+│   └── main.cpp
 └── tests/
+    └── smoke_test.cpp
 ```
 
-Add source files when their milestone begins. The planned CMake targets are `chess_core`, `chess_engine`, and `chess_tests`; CTest invokes the latter. The normal development loop will be configure, build, then `ctest --test-dir build --output-on-failure`, once milestone 1 creates the build.
+`chess_core` is an interface target until milestone 2 introduces its first source-level API. `chess_engine` is a no-op executable, and CTest invokes the `chess_tests` smoke-test executable. Add source files only when their milestone begins.
 
 ## Reference material
 
